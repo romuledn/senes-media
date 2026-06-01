@@ -44,12 +44,12 @@ function App() {
     document.documentElement.style.setProperty("--atm-c", palette.c);
   }, [t.atmosphere]);
 
-  // local clock — UTC
+  // local clock — South Africa (SAST, UTC+2)
   React.useEffect(() => {
     const fmt = () => {
       const d = new Date();
-      const opt = { timeZone: "UTC", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
-      const txt = new Intl.DateTimeFormat("en-GB", opt).format(d) + " UTC";
+      const opt = { timeZone: "Africa/Johannesburg", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
+      const txt = new Intl.DateTimeFormat("en-GB", opt).format(d) + " SAST";
       const el = document.getElementById("local-clock");
       if (el) el.textContent = txt;
     };
