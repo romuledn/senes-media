@@ -116,7 +116,7 @@ function ContactPage({ navigate }) {
       </section>
 
       <style>{`
-        .contact-form { max-width: 880px; }
+        .contact-form { max-width: 880px; margin: 0 auto; }
         .field { padding: 22px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 160px 1fr; gap: 32px; align-items: start; }
         .field-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--paper-3); padding-top: 14px; }
         .field-label .req { color: var(--red); margin-left: 4px; }
