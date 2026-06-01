@@ -6,8 +6,30 @@ function ContactPage({ navigate }) {
     name: "", email: "", company: "", budget: "", services: [], timeline: "", message: "",
   });
   const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
   const toggleService = (s) => {
     setForm({ ...form, services: form.services.includes(s) ? form.services.filter(x => x !== s) : [...form.services, s] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSending(true);
+    try {
+      const res = await fetch("https://formspree.io/f/mdajvoje", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company,
+          services: form.services.join(", "),
+          timeline: form.timeline,
+          message: form.message,
+        }),
+      });
+      if (res.ok) setSent(true);
+    } catch (err) {}
+    setSending(false);
   };
 
   return (
@@ -73,7 +95,7 @@ function ContactPage({ navigate }) {
               </p>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="contact-form">
+            <form onSubmit={handleSubmit} className="contact-form">
               <Field label="Your name" required>
                 <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} data-cursor="text" placeholder="Full name" required />
               </Field>
@@ -105,8 +127,8 @@ function ContactPage({ navigate }) {
 
               <div style={{ marginTop: 40, display: "flex", justifyContent: "flex-end", alignItems: "center", flexWrap: "wrap", gap: 24, paddingTop: 32, borderTop: "1px solid var(--line)" }}>
                 <Magnetic strength={0.25}>
-                  <button type="submit" className="btn primary" data-cursor="hover" style={{ padding: "20px 32px" }}>
-                    Send Brief <Arrow />
+                  <button type="submit" className="btn primary" data-cursor="hover" style={{ padding: "20px 32px" }} disabled={sending}>
+                    {sending ? "Sending…" : <>Send Brief <Arrow /></>}
                   </button>
                 </Magnetic>
               </div>
